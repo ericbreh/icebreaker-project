@@ -1,16 +1,17 @@
 module icebreaker (
     input  wire CLK,      // 12MHz clock input
     input  wire BTN_N,    // Reset button
-    input  wire RX,       // UART RX
-    output wire TX,       // UART TX
-    output wire LEDG_N
+    // input  wire RX,       // UART RX
+    // output wire TX,       // UART TX
+    input wire BTN2,
+    output wire P1A1
 );
 
     wire clk_12 = CLK;
     wire clk_30.5;
 
     wire led;
-    assign LEDG_N = !led;
+    assign P1A1 = !led;
 
     // https://www.desmos.com/calculator/tbvv5cego6
     // icepll -i 12 -o 30.5
@@ -33,8 +34,9 @@ module icebreaker (
     alu alu (
         .clk_i   (clk_30.5),
         .rst_ni  (BTN_N),
-        .rxd_i   (RX),
-        .txd_o   (TX),
+        .btn2_i (BTN2),
+        // .rxd_i   (RX),
+        // .txd_o   (TX),
         .led_o(led)
     );
 
