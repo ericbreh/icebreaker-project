@@ -90,21 +90,23 @@ class ALU:
 def main():
     alu = ALU()
     
-    # alu.echo("Hello, ALU!")
-    # time.sleep(0.1)
-    # alu.receive_echo()
+    alu.echo("Hello, ALU!")
+    time.sleep(0.1)
+    alu.receive_echo()
 
-    # alu.add32([1, 2, 3, 4, 5])
-    # time.sleep(0.1)
-    # alu.receive_result()
+    alu.add32([1, 2, 3, 4, 5])
+    time.sleep(0.1)
+    alu.receive_result()
 
-    # alu.mul32([1, 2, 3, 4, 5])
-    # time.sleep(0.1)
-    # alu.receive_result()
+    alu.mul32([1, 2, 3, 4, 5])
+    time.sleep(0.1)
+    alu.receive_result()
 
-    # alu.div32(6, -2)
-    # time.sleep(0.1)
-    # alu.receive_result()
+    alu.div32(6, -2)
+    time.sleep(0.1)
+    alu.receive_result()
+
+    
 
     alu.div32(100, 10)
     time.sleep(0.1)

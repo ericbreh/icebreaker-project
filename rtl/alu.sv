@@ -7,7 +7,8 @@ module alu
     input  logic clk_i,
     input  logic rst_ni,
     input  logic rxd_i,
-    output logic txd_o
+    output logic txd_o,
+    output logic led_o
 );
 
   // state
@@ -34,6 +35,10 @@ module alu
 
   // reset signal
   logic my_rst_ni;
+
+  // led
+  logic led_d, led_q;
+  assign led_o = led_q;
 
   uart #(
       .DATA_WIDTH(DATA_WIDTH)
@@ -93,6 +98,7 @@ module alu
       pkt_length_q <= 0;
       accumulator_q <= 0;
       current_number_q <= 0;
+      led_q <= 0;
 
     end else begin
       state_q <= state_d;
@@ -102,6 +108,7 @@ module alu
       pkt_length_q <= pkt_length_d;
       accumulator_q <= accumulator_d;
       current_number_q <= current_number_d;
+      led_q <= led_d;
     end
   end
 
@@ -123,6 +130,9 @@ module alu
     mul_ready_i = 0;
     mul_valid_i = 0;
     my_rst_ni = 1;
+
+    // led
+    led_d = 0;
 
     unique case (state_q)
 
@@ -218,6 +228,7 @@ module alu
       end
 
       ADD: begin
+        led_d = 1;
         rx_ready_i = 0;
         accumulator_d = accumulator_q + current_number_q;
         if (pkt_length_q == 'd4) begin
@@ -228,6 +239,7 @@ module alu
       end
 
       MUL: begin
+        led_d = 1;
         rx_ready_i  = 0;
         mul_ready_i = 1;
         // byte counter will be 0 on first time in this state, flash valid once
@@ -250,6 +262,7 @@ module alu
       end
 
       DIV: begin
+        led_d = 1;
         rx_ready_i  = 0;
         div_ready_i = 1;
         // byte counter will be 0 on first time in this state, flash valid once
@@ -266,6 +279,7 @@ module alu
       end
 
       TRANSMIT: begin
+        led_d = 1;
         rx_ready_i = 0;
         if (tx_ready_o) begin
           if (byte_counter_q == 'd3) begin
